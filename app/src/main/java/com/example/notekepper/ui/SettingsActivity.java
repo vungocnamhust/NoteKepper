@@ -81,22 +81,23 @@ public class SettingsActivity extends AppCompatActivity implements
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.header_preferences, rootKey);
+
         }
     }
 
-    public static class MessagesFragment extends PreferenceFragmentCompat {
+    public static class FavoriteSocialNetworkFragment extends PreferenceFragmentCompat {
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-            setPreferencesFromResource(R.xml.email_address, rootKey);
+            setPreferencesFromResource(R.xml.pref_favorite_social_network, rootKey);
         }
     }
 
-    public static class SyncFragment extends PreferenceFragmentCompat {
+    public static class EmailAddressFragment extends PreferenceFragmentCompat {
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-            setPreferencesFromResource(R.xml.favorite_social_network, rootKey);
+            setPreferencesFromResource(R.xml.pref_email_address, rootKey);
         }
     }
 }

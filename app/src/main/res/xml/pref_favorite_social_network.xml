@@ -7,8 +7,8 @@
 
     <ListPreference
         app:defaultValue="reply"
-        app:entries="@array/reply_entries"
-        app:entryValues="@array/reply_values"
+        app:entries="@array/pref_entries_favorite_social_network"
+        app:entryValues="@array/pref_value_favorite_social_network"
         app:key="reply"
         app:title="@string/reply_title"
         app:useSimpleSummaryProvider="true" />
