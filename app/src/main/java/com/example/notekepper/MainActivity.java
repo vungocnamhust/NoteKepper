@@ -1,11 +1,13 @@
 package com.example.notekepper;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 
 import com.example.notekepper.ui.SettingsActivity;
 import com.example.notekepper.ui.note.NoteActivity;
@@ -22,6 +24,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.preference.PreferenceManager;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -118,6 +121,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateNavHeader();
+    }
+
+    private void updateNavHeader() {
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        View headerView =  navigationView.getHeaderView(0);
+        TextView tvUserName = headerView.findViewById(R.id.text_user_name);
+        TextView tvEmailAddress = headerView.findViewById(R.id.text_email_address);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String userName = preferences.getString("user_name", "");
+        String emailAddress = preferences.getString("email_address", "");
+
+        tvUserName.setText(userName);
+        tvEmailAddress.setText(emailAddress);
     }
 }
 
