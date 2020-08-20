@@ -16,7 +16,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.notekepper.R;
 import com.example.notekepper.data.DataManager;
-import com.example.notekepper.data.local.NoteKeeperDatabaseContract;
 import com.example.notekepper.data.local.NoteKeeperOpenHelper;
 import com.example.notekepper.model.CourseInfo;
 import com.example.notekepper.model.NoteInfo;
@@ -26,8 +25,8 @@ import java.util.List;
 import static com.example.notekepper.data.local.NoteKeeperDatabaseContract.*;
 
 public class NoteActivity extends AppCompatActivity {
-    public static final String NOTE_POSITION = "com.jwhh.notekeeper.NOTE_POSITION";
-    public static final int POSITION_NOT_SET = -1;
+    public static final String NOTE_ID = "com.jwhh.notekeeper.NOTE_POSITION";
+    public static final int ID_NOT_SET = -1;
     private NoteInfo mNote;
     private boolean mIsNewNote;
     private Spinner mSpinnerCourses;
@@ -41,6 +40,7 @@ public class NoteActivity extends AppCompatActivity {
     private int mNoteTextPos;
     private int mCourseIdPos;
     private Cursor mNoteCursor;
+    private int mNoteId;
 
 
     @Override
@@ -87,13 +87,10 @@ public class NoteActivity extends AppCompatActivity {
 
     private void loadNoteData() {
         SQLiteDatabase db = mDbOpenHelper.getReadableDatabase();
-        String courseId = "android_intents";
-        String titleStart = "dynamic";
 
 
-        String selection = NoteInfoEntry.COLUMN_COURSE_ID + " = ? AND " +
-                NoteInfoEntry.COLUMN_NOTE_TITLE + " LIKE ?";
-        String[] selectionArgs = {courseId, titleStart + "%"};
+        String selection = NoteInfoEntry._ID + " = ?";
+        String[] selectionArgs = {Integer.toString(mNoteId)};
 
         String[] noteColumns = {
                 NoteInfoEntry.COLUMN_NOTE_TEXT,
@@ -169,12 +166,12 @@ public class NoteActivity extends AppCompatActivity {
 
     private void readDisplayStateValues() {
         Intent intent = getIntent();
-        int position = intent.getIntExtra(NOTE_POSITION, POSITION_NOT_SET);
-        mIsNewNote = position == POSITION_NOT_SET;
+        mNoteId = intent.getIntExtra(NOTE_ID, ID_NOT_SET);
+        mIsNewNote = mNoteId == ID_NOT_SET;
         if (mIsNewNote) {
             createNewNote();
         } else {
-            mNote = DataManager.getInstance().getNotes().get(position);
+            mNote = DataManager.getInstance().getNotes().get(mNoteId);
         }
     }
 
