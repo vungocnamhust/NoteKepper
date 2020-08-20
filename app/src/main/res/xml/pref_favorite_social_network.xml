@@ -1,0 +1,16 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <EditTextPreference
+        app:key="user_name"
+        app:title="@string/signature_title"
+        app:useSimpleSummaryProvider="true" />
+
+    <ListPreference
+        app:defaultValue="http:google.com"
+        app:entries="@array/pref_entries_favorite_social_network"
+        app:entryValues="@array/pref_value_favorite_social_network"
+        app:key="social_network"
+        app:title="@string/pref_title_user_favorite_social"
+        app:useSimpleSummaryProvider="true" />
+
+</PreferenceScreen>

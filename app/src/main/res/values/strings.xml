@@ -36,4 +36,18 @@
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="pref_title_email_address">Email address</string>
     <string name="pref_title_user_favorite_social">Favorite social network</string>
+
+    <string-array  name="pref_entries_favorite_social_network">
+        <item>Google +</item>
+        <item>Twitter</item>
+        <item>Facebook</item>
+    </string-array>
+
+    <string-array name="pref_value_favorite_social_network">
+        <item>http://www.google.com/</item>
+        <item>https://www.twitter.com/</item>
+        <item>https://www.facebook.com/</item>
+    </string-array>
+
+    <string name="pref_default_favorite_social_network">http://www.google.com/</string>
 </resources>
