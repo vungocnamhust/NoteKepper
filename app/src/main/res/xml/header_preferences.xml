@@ -1,13 +1,13 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <Preference
-        app:fragment="com.example.notekepper.ui.SettingsActivity$MessagesFragment"
+        app:fragment="com.example.notekepper.ui.SettingsActivity$EmailAddressFragment"
         app:icon="@drawable/messages"
         app:key="email_address"
         app:title="@string/pref_title_email_address" />
 
     <Preference
-        app:fragment="com.example.notekepper.ui.SettingsActivity$SyncFragment"
+        app:fragment="com.example.notekepper.ui.SettingsActivity$FavoriteSocialNetworkFragment"
         app:icon="@drawable/sync"
         app:key="user_favorite_social"
         app:title="@string/pref_title_user_favorite_social" />
