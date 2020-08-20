@@ -2,6 +2,8 @@ package com.example.notekepper;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -9,6 +11,8 @@ import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
 
+import com.example.notekepper.data.DataManager;
+import com.example.notekepper.data.local.NoteKeeperOpenHelper;
 import com.example.notekepper.ui.SettingsActivity;
 import com.example.notekepper.ui.note.NoteActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -30,7 +34,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private AppBarConfiguration mAppBarConfiguration;
     private NavController mNavController;
+    private NoteKeeperOpenHelper mDBOpenHelper;
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mDBOpenHelper.close();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,7 +69,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mNavController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, mNavController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, mNavController);
-
+        //        Create DBOpenHelper
+        mDBOpenHelper = new NoteKeeperOpenHelper(this);
+        DataManager.loadFromDatabase(mDBOpenHelper);
     }
 
     @Override
