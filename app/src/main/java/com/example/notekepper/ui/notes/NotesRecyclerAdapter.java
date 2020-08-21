@@ -27,7 +27,6 @@ public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdap
     private final LayoutInflater mLayoutInflater;
     private int mCourseIdPos;
     private int mNoteTitlePos;
-    private int mNoteTextPos;
     private int mIdPos;
 
     public NotesRecyclerAdapter(Context context, Cursor cursor) {
@@ -41,7 +40,6 @@ public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdap
         if (mCursor == null) return;
         mCourseIdPos = mCursor.getColumnIndex(COLUMN_COURSE_ID);
         mNoteTitlePos = mCursor.getColumnIndex(COLUMN_NOTE_TITLE);
-        mNoteTextPos = mCursor.getColumnIndex(COLUMN_NOTE_TEXT);
         mIdPos = mCursor.getColumnIndex(_ID);
     }
 
@@ -63,7 +61,6 @@ public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdap
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         mCursor.moveToPosition(position);
         String noteTitle = mCursor.getString(mNoteTitlePos);
-        String noteText = mCursor.getString(mNoteTextPos);
         String courseId = mCursor.getString(mCourseIdPos);
         int mId = mCursor.getInt(mIdPos);
 
