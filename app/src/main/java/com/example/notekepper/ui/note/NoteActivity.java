@@ -4,7 +4,9 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -17,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.loader.app.LoaderManager;
+import androidx.loader.content.AsyncTaskLoader;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 
@@ -123,10 +126,21 @@ public class NoteActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     private void deleteNoteFromDatabase() {
-        String selection = NoteInfoEntry._ID + " = ?";
-        String[] selectionParams = {Integer.toString(mNoteId)};
-        SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
-        db.delete(NoteInfoEntry.TABLE_NAME, selection, selectionParams);
+        final String selection = NoteInfoEntry._ID + " = ?";
+        final String[] selectionParams = {Integer.toString(mNoteId)};
+
+
+        final AsyncTaskLoader asyncTaskLoader = new AsyncTaskLoader(this) {
+            @Nullable
+            @Override
+            public Object loadInBackground() {
+                SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+                db.delete(NoteInfoEntry.TABLE_NAME, selection, selectionParams);
+                return null;
+            }
+        };
+        asyncTaskLoader.loadInBackground();
+
     }
 
     @Override
