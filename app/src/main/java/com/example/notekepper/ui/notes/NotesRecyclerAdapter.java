@@ -13,19 +13,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.notekepper.R;
-import com.example.notekepper.model.NoteInfo;
 import com.example.notekepper.ui.note.NoteActivity;
 
 import static android.provider.BaseColumns._ID;
-import static com.example.notekepper.data.local.NoteKeeperDatabaseContract.NoteInfoEntry.COLUMN_COURSE_ID;
-import static com.example.notekepper.data.local.NoteKeeperDatabaseContract.NoteInfoEntry.COLUMN_NOTE_TEXT;
+import static com.example.notekepper.data.local.NoteKeeperDatabaseContract.*;
 import static com.example.notekepper.data.local.NoteKeeperDatabaseContract.NoteInfoEntry.COLUMN_NOTE_TITLE;
 
 public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdapter.ViewHolder> {
     private final Context mContext;
     private Cursor mCursor;
     private final LayoutInflater mLayoutInflater;
-    private int mCourseIdPos;
+    private int mCourseTitlePos;
     private int mNoteTitlePos;
     private int mIdPos;
 
@@ -38,7 +36,7 @@ public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdap
 
     private void populateColumnPosition() {
         if (mCursor == null) return;
-        mCourseIdPos = mCursor.getColumnIndex(COLUMN_COURSE_ID);
+        mCourseTitlePos = mCursor.getColumnIndex(CourseInfoEntry.COLUMN_COURSE_TITLE);
         mNoteTitlePos = mCursor.getColumnIndex(COLUMN_NOTE_TITLE);
         mIdPos = mCursor.getColumnIndex(_ID);
     }
@@ -61,7 +59,7 @@ public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdap
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         mCursor.moveToPosition(position);
         String noteTitle = mCursor.getString(mNoteTitlePos);
-        String courseId = mCursor.getString(mCourseIdPos);
+        String courseId = mCursor.getString(mCourseTitlePos);
         int mId = mCursor.getInt(mIdPos);
 
 

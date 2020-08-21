@@ -19,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.notekepper.data.DataManager;
 import com.example.notekepper.data.local.NoteKeeperDatabaseContract;
+import com.example.notekepper.data.local.NoteKeeperDatabaseContract.CourseInfoEntry;
+import com.example.notekepper.data.local.NoteKeeperDatabaseContract.NoteInfoEntry;
 import com.example.notekepper.data.local.NoteKeeperOpenHelper;
 import com.example.notekepper.model.NoteInfo;
 import com.example.notekepper.R;
@@ -68,12 +70,19 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
                 NoteKeeperOpenHelper dbOpenHelper = new NoteKeeperOpenHelper(getContext());
                 SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
                 final String[] noteColumns = {
-                        NoteKeeperDatabaseContract.NoteInfoEntry.COLUMN_NOTE_TITLE,
-                        NoteKeeperDatabaseContract.NoteInfoEntry.COLUMN_NOTE_TEXT,
-                        NoteKeeperDatabaseContract.NoteInfoEntry.COLUMN_COURSE_ID,
-                        NoteKeeperDatabaseContract.NoteInfoEntry._ID};
-                String noteOrderBy = NoteKeeperDatabaseContract.NoteInfoEntry.COLUMN_COURSE_ID + "," + NoteKeeperDatabaseContract.NoteInfoEntry.COLUMN_NOTE_TITLE;
-                return db.query(NoteKeeperDatabaseContract.NoteInfoEntry.TABLE_NAME, noteColumns,
+                        NoteInfoEntry.COLUMN_NOTE_TITLE,
+                        NoteInfoEntry.getQName(NoteInfoEntry._ID),
+                        CourseInfoEntry.COLUMN_COURSE_TITLE};
+
+                String tableNameWithJoin = NoteInfoEntry.TABLE_NAME + " JOIN " +
+                        CourseInfoEntry.TABLE_NAME + " ON "+
+                        NoteInfoEntry.getQName(NoteInfoEntry.COLUMN_COURSE_ID)+ " = "+
+                        CourseInfoEntry.getQName(CourseInfoEntry.COLUMN_COURSE_ID);
+
+                String noteOrderBy = CourseInfoEntry.COLUMN_COURSE_TITLE + "," +
+                        NoteInfoEntry.COLUMN_NOTE_TITLE;
+
+                return db.query(tableNameWithJoin, noteColumns,
                         null, null, null, null, noteOrderBy);
             }
         };
