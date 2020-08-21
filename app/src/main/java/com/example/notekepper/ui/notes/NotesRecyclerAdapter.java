@@ -2,6 +2,7 @@ package com.example.notekepper.ui.notes;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,17 +16,40 @@ import com.example.notekepper.R;
 import com.example.notekepper.model.NoteInfo;
 import com.example.notekepper.ui.note.NoteActivity;
 
-import java.util.List;
+import static android.provider.BaseColumns._ID;
+import static com.example.notekepper.data.local.NoteKeeperDatabaseContract.NoteInfoEntry.COLUMN_COURSE_ID;
+import static com.example.notekepper.data.local.NoteKeeperDatabaseContract.NoteInfoEntry.COLUMN_NOTE_TEXT;
+import static com.example.notekepper.data.local.NoteKeeperDatabaseContract.NoteInfoEntry.COLUMN_NOTE_TITLE;
 
 public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdapter.ViewHolder>{
     private final Context mContext;
-    private final List<NoteInfo> mNotes;
+    private Cursor mCursor;
     private final LayoutInflater mLayoutInflater;
+    private int mCourseIdPos;
+    private int mNoteTitlePos;
+    private int mNoteTextPos;
+    private int mIdPos;
 
-    public NotesRecyclerAdapter(Context context, List<NoteInfo> notes) {
+    public NotesRecyclerAdapter(Context context, Cursor cursor) {
         mContext = context;
-        mNotes = notes;
+        mCursor = cursor;
         mLayoutInflater = LayoutInflater.from(mContext);
+        populateColumnPosition();
+    }
+
+    private void populateColumnPosition() {
+        if (mCursor == null) return;
+        mCourseIdPos = mCursor.getColumnIndex(COLUMN_COURSE_ID);
+        mNoteTitlePos = mCursor.getColumnIndex(COLUMN_NOTE_TITLE);
+        mNoteTextPos = mCursor.getColumnIndex(COLUMN_NOTE_TEXT);
+        mIdPos = mCursor.getColumnIndex(_ID);
+    }
+
+    public void changeCursor(Cursor cursor) {
+        if (mCursor != null) mCursor.close();
+        mCursor = cursor;
+        populateColumnPosition();
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -37,15 +61,21 @@ public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdap
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        NoteInfo note = mNotes.get(position);
-        holder.mTextCourse.setText(note.getCourse().getTitle());
-        holder.mTextTitle.setText(note.getTitle());
-        holder.mId = note.getId();
+        mCursor.moveToPosition(position);
+        String noteTitle = mCursor.getString(mNoteTitlePos);
+        String noteText = mCursor.getString(mNoteTextPos);
+        String courseId = mCursor.getString(mCourseIdPos);
+        int mId = mCursor.getInt(mIdPos);
+
+
+        holder.mTextCourse.setText(courseId);
+        holder.mTextTitle.setText(noteTitle);
+        holder.mId = mId;
     }
 
     @Override
     public int getItemCount() {
-        return mNotes.size();
+        return mCursor.getCount();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
