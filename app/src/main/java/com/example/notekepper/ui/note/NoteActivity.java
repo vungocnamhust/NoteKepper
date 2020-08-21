@@ -30,8 +30,8 @@ import static com.example.notekepper.data.local.NoteKeeperDatabaseContract.*;
 public class NoteActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     public static final String NOTE_ID = "com.jwhh.notekeeper.NOTE_POSITION";
     public static final int ID_NOT_SET = -1;
-    private static final int LOADER_NOTES = 0;
-    private static final int LOADER_COURSES = 1;
+    public static final int LOADER_NOTES = 0;
+    public static final int LOADER_COURSES = 1;
     private NoteInfo mNote;
     private boolean mIsNewNote;
     private Spinner mSpinnerCourses;

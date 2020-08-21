@@ -21,7 +21,7 @@ import static com.example.notekepper.data.local.NoteKeeperDatabaseContract.NoteI
 import static com.example.notekepper.data.local.NoteKeeperDatabaseContract.NoteInfoEntry.COLUMN_NOTE_TEXT;
 import static com.example.notekepper.data.local.NoteKeeperDatabaseContract.NoteInfoEntry.COLUMN_NOTE_TITLE;
 
-public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdapter.ViewHolder>{
+public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdapter.ViewHolder> {
     private final Context mContext;
     private Cursor mCursor;
     private final LayoutInflater mLayoutInflater;
@@ -55,7 +55,7 @@ public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdap
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = mLayoutInflater.inflate(R.layout.item_note_list,parent,false);
+        View itemView = mLayoutInflater.inflate(R.layout.item_note_list, parent, false);
         return new ViewHolder(itemView);
     }
 
@@ -75,10 +75,10 @@ public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdap
 
     @Override
     public int getItemCount() {
-        return mCursor.getCount();
+        return mCursor == null ? 0 : mCursor.getCount();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         public final TextView mTextCourse;
         public final TextView mTextTitle;
@@ -86,9 +86,9 @@ public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdap
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            mTextCourse = (TextView)itemView.findViewById(R.id.text_course);
+            mTextCourse = (TextView) itemView.findViewById(R.id.text_course);
             mTextTitle = (TextView) itemView.findViewById(R.id.text_title);
-            itemView.setOnClickListener(new View.OnClickListener(){
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Log.i("CURRENT_POSITION: ", String.valueOf(mId));
