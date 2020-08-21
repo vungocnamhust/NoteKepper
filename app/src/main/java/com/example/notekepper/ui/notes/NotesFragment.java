@@ -1,5 +1,7 @@
 package com.example.notekepper.ui.notes;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.notekepper.data.DataManager;
+import com.example.notekepper.data.local.NoteKeeperDatabaseContract;
+import com.example.notekepper.data.local.NoteKeeperOpenHelper;
 import com.example.notekepper.model.NoteInfo;
 import com.example.notekepper.R;
 
@@ -36,14 +40,29 @@ public class NotesFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mNoteRecyclerAdapter.notifyDataSetChanged();
+//        mNoteRecyclerAdapter.notifyDataSetChanged();
+        loadNote();
+    }
+
+    private void loadNote() {
+        NoteKeeperOpenHelper dbOpenHelper = new NoteKeeperOpenHelper(getContext());
+        SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
+        final String[] noteColumns = {
+                NoteKeeperDatabaseContract.NoteInfoEntry.COLUMN_NOTE_TITLE,
+                NoteKeeperDatabaseContract.NoteInfoEntry.COLUMN_NOTE_TEXT,
+                NoteKeeperDatabaseContract.NoteInfoEntry.COLUMN_COURSE_ID,
+                NoteKeeperDatabaseContract.NoteInfoEntry._ID};
+        String noteOrderBy = NoteKeeperDatabaseContract.NoteInfoEntry.COLUMN_COURSE_ID + "," + NoteKeeperDatabaseContract.NoteInfoEntry.COLUMN_NOTE_TITLE;
+        final Cursor noteCursor = db.query(NoteKeeperDatabaseContract.NoteInfoEntry.TABLE_NAME, noteColumns,
+                null, null, null, null, noteOrderBy);
+        mNoteRecyclerAdapter.changeCursor(noteCursor);
     }
 
     private void initializeDisplayContent(LinearLayoutManager noteLayoutManager) {
         mRecyclerView = (RecyclerView) mRoot.findViewById(R.id.list_notes);
 
         List<NoteInfo> notes = DataManager.getInstance().getNotes();
-        mNoteRecyclerAdapter = new NotesRecyclerAdapter(getContext(), notes);
+        mNoteRecyclerAdapter = new NotesRecyclerAdapter(getContext(), null);
 //        Display note
         mRecyclerView.setLayoutManager(noteLayoutManager);
         mRecyclerView.setAdapter(mNoteRecyclerAdapter);
