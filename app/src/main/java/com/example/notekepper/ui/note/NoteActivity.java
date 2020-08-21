@@ -61,9 +61,7 @@ public class NoteActivity extends AppCompatActivity {
 
         mSpinnerCourses = findViewById(R.id.spinner_courses);
 
-//        List<CourseInfo> courses = DataManager.getInstance().getCourses();
-//        ArrayAdapter<CourseInfo> adapterCourses =
-//                new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, courses);
+
         mAdapterCourses = new SimpleCursorAdapter(
                 this, android.R.layout.simple_spinner_item,
                 null, new String[]{CourseInfoEntry.COLUMN_COURSE_TITLE},
