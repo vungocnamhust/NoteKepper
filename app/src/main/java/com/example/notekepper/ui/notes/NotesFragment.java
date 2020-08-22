@@ -17,6 +17,7 @@ import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.notekepper.NoteKeeperProviderContract;
 import com.example.notekepper.data.DataManager;
 import com.example.notekepper.data.local.NoteKeeperDatabaseContract;
 import com.example.notekepper.data.local.NoteKeeperDatabaseContract.CourseInfoEntry;
@@ -28,6 +29,8 @@ import com.example.notekepper.ui.note.NoteActivity;
 
 import java.util.List;
 
+import static com.example.notekepper.NoteKeeperProviderContract.*;
+
 public class NotesFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private NotesViewModel mNotesViewModel;
@@ -35,13 +38,23 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
     private View mRoot;
     private NotesRecyclerAdapter mNoteRecyclerAdapter;
     public static final int LOADER_NOTES = 0;
+    private NoteKeeperOpenHelper mDBOpenHelper;
+    private LinearLayoutManager mNoteLayoutManager;
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mDBOpenHelper.close();
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         mNotesViewModel =
                 ViewModelProviders.of(this).get(NotesViewModel.class);
         mRoot = inflater.inflate(R.layout.fragment_notes, container, false);
-        initializeDisplayContent(new LinearLayoutManager(getContext()));
+        mDBOpenHelper = new NoteKeeperOpenHelper(getContext());
+        mNoteLayoutManager = new LinearLayoutManager(getContext());
+        initializeDisplayContent();
         return mRoot;
     }
 
@@ -51,41 +64,41 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
         LoaderManager.getInstance(this).restartLoader(NotesFragment.LOADER_NOTES, null, this);
     }
 
-    private void initializeDisplayContent(LinearLayoutManager noteLayoutManager) {
+    private void initializeDisplayContent() {
+        DataManager.loadFromDatabase(mDBOpenHelper);
         mRecyclerView = (RecyclerView) mRoot.findViewById(R.id.list_notes);
 
         List<NoteInfo> notes = DataManager.getInstance().getNotes();
         mNoteRecyclerAdapter = new NotesRecyclerAdapter(getContext(), null);
-//        Display note
-        mRecyclerView.setLayoutManager(noteLayoutManager);
+
+        displayNote();
+    }
+
+    private void displayNote() {
+        mRecyclerView.setLayoutManager(mNoteLayoutManager);
         mRecyclerView.setAdapter(mNoteRecyclerAdapter);
     }
 
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        return new CursorLoader(getContext()) {
-            @Override
-            public Cursor loadInBackground() {
-                NoteKeeperOpenHelper dbOpenHelper = new NoteKeeperOpenHelper(getContext());
-                SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
-                final String[] noteColumns = {
-                        NoteInfoEntry.COLUMN_NOTE_TITLE,
-                        NoteInfoEntry.getQName(NoteInfoEntry._ID),
-                        CourseInfoEntry.COLUMN_COURSE_TITLE};
+        CursorLoader loader = null;
+        if (id == LOADER_NOTES) {
+            final String[] noteColumns = {
+                    Notes._ID,
+                    Notes.COLUMN_NOTE_TITLE,
+                    Notes.COLUMN_COURSE_TITLE
+            };
+            final String noteOrderBy = Notes.COLUMN_COURSE_TITLE +
+                    "," + Notes.COLUMN_NOTE_TITLE;
 
-                String tableNameWithJoin = NoteInfoEntry.TABLE_NAME + " JOIN " +
-                        CourseInfoEntry.TABLE_NAME + " ON "+
-                        NoteInfoEntry.getQName(NoteInfoEntry.COLUMN_COURSE_ID)+ " = "+
-                        CourseInfoEntry.getQName(CourseInfoEntry.COLUMN_COURSE_ID);
+            loader = new CursorLoader(getContext(), Notes.CONTENT_EXPANDED_URI, noteColumns,
+                    null, null, noteOrderBy);
 
-                String noteOrderBy = CourseInfoEntry.COLUMN_COURSE_TITLE + "," +
-                        NoteInfoEntry.COLUMN_NOTE_TITLE;
+        }
+        return loader;
 
-                return db.query(tableNameWithJoin, noteColumns,
-                        null, null, null, null, noteOrderBy);
-            }
-        };
+
     }
 
     @Override
@@ -97,7 +110,8 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
 
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-        mNoteRecyclerAdapter.changeCursor(null);
+        if (loader.getId() == LOADER_NOTES)
+            mNoteRecyclerAdapter.changeCursor(null);
 
     }
 }

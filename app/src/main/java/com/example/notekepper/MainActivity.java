@@ -34,14 +34,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private AppBarConfiguration mAppBarConfiguration;
     private NavController mNavController;
-    private NoteKeeperOpenHelper mDBOpenHelper;
 
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mDBOpenHelper.close();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +63,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationUI.setupActionBarWithNavController(this, mNavController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, mNavController);
         //        Create DBOpenHelper
-        mDBOpenHelper = new NoteKeeperOpenHelper(this);
-        DataManager.loadFromDatabase(mDBOpenHelper);
+
     }
 
     @Override
