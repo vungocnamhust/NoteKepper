@@ -45,7 +45,7 @@ public class CoursesFragment extends Fragment {
     }
 
     private void initDisplayContent(GridLayoutManager gridLayoutManager) {
-        mRecyclerView = (RecyclerView) mRoot.findViewById(R.id.list_notes);
+        mRecyclerView = (RecyclerView) mRoot.findViewById(R.id.list_courses);
         List<CourseInfo> courses = DataManager.getInstance().getCourses();
 
         mCoursesRecyclerAdapter = new CoursesRecyclerAdapter(getContext(), courses);
