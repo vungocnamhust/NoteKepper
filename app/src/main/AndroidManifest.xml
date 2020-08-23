@@ -11,9 +11,9 @@
         android:theme="@style/AppTheme">
         <provider
             android:name=".NoteKeeperProvider"
-            android:authorities="com.example.notekepper"
+            android:authorities="com.example.notekepper.provider"
             android:enabled="true"
-            android:exported="true"></provider>
+            android:exported="true" />
 
         <activity
             android:name=".ui.SettingsActivity"

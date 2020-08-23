@@ -238,7 +238,7 @@ public class NoteActivity extends AppCompatActivity implements LoaderManager.Loa
         values.put(NoteInfoEntry.COLUMN_NOTE_TEXT, "");
         SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
         mNoteId = (int) db.insert(NoteInfoEntry.TABLE_NAME, null, values);
-
+//        Uri uri = getContentResolver().insert(Notes.CONTENT_URI, values);
     }
 
     @Override
