@@ -82,45 +82,21 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-//        CursorLoader loader = null;
-//        if (id == LOADER_NOTES) {
-//            final String[] noteColumns = {
-//                    Notes._ID,
-//                    Notes.COLUMN_NOTE_TITLE,
-//                    Notes.COLUMN_COURSE_TITLE
-//            };
-//            final String noteOrderBy = Notes.COLUMN_COURSE_TITLE +
-//                    "," + Notes.COLUMN_NOTE_TITLE;
-//
-//            loader = new CursorLoader(getContext(), Notes.CONTENT_EXPANDED_URI, noteColumns,
-//                    null, null, noteOrderBy);
-//
-//        }
-//        return loader;
-        return new CursorLoader(getContext()) {
-            @Override
-            public Cursor loadInBackground() {
-                NoteKeeperOpenHelper dbOpenHelper = new NoteKeeperOpenHelper(getContext());
-                SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
-                final String[] noteColumns = {
-                        NoteInfoEntry.COLUMN_NOTE_TITLE,
-                        NoteInfoEntry.getQName(NoteInfoEntry._ID),
-                        CourseInfoEntry.COLUMN_COURSE_TITLE};
+        CursorLoader loader = null;
+        if (id == LOADER_NOTES) {
+            final String[] noteColumns = {
+                    Notes._ID,
+                    Notes.COLUMN_NOTE_TITLE,
+                    Notes.COLUMN_COURSE_TITLE
+            };
+            final String noteOrderBy = Notes.COLUMN_COURSE_TITLE +
+                    "," + Notes.COLUMN_NOTE_TITLE;
 
-                String tableNameWithJoin = NoteInfoEntry.TABLE_NAME + " JOIN " +
-                        CourseInfoEntry.TABLE_NAME + " ON "+
-                        NoteInfoEntry.getQName(NoteInfoEntry.COLUMN_COURSE_ID)+ " = "+
-                        CourseInfoEntry.getQName(CourseInfoEntry.COLUMN_COURSE_ID);
+            loader = new CursorLoader(getContext(), Notes.CONTENT_EXPANDED_URI, noteColumns,
+                    null, null, noteOrderBy);
 
-                String noteOrderBy = CourseInfoEntry.COLUMN_COURSE_TITLE + "," +
-                        NoteInfoEntry.COLUMN_NOTE_TITLE;
-
-                return db.query(tableNameWithJoin, noteColumns,
-                        null, null, null, null, noteOrderBy);
-            }
-        };
-
-
+        }
+        return loader;
     }
 
     @Override
