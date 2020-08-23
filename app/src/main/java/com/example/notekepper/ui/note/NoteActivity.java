@@ -1,5 +1,6 @@
 package com.example.notekepper.ui.note;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -236,9 +237,9 @@ public class NoteActivity extends AppCompatActivity implements LoaderManager.Loa
         values.put(NoteInfoEntry.COLUMN_COURSE_ID, "");
         values.put(NoteInfoEntry.COLUMN_NOTE_TITLE, "");
         values.put(NoteInfoEntry.COLUMN_NOTE_TEXT, "");
-        SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
-        mNoteId = (int) db.insert(NoteInfoEntry.TABLE_NAME, null, values);
-//        Uri uri = getContentResolver().insert(Notes.CONTENT_URI, values);
+//        SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+//        mNoteId = (int) db.insert(NoteInfoEntry.TABLE_NAME, null, values);
+        Uri uri = getContentResolver().insert(Notes.CONTENT_URI, values);
     }
 
     @Override
@@ -320,18 +321,15 @@ public class NoteActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private CursorLoader createLoaderNotes() {
         mNotesQueryFinished = false;
-        Uri uri = Notes.CONTENT_URI;
-
-        String selection = NoteInfoEntry._ID + " = ?";
-        String[] selectionArgs = {Integer.toString(mNoteId)};
-
         String[] noteColumns = {
                 NoteInfoEntry.COLUMN_NOTE_TEXT,
                 NoteInfoEntry.COLUMN_NOTE_TITLE,
                 NoteInfoEntry.COLUMN_COURSE_ID};
 
-        return new CursorLoader(this, uri, noteColumns, selection, selectionArgs,
-                NoteInfoEntry.COLUMN_NOTE_TITLE);
+
+        Uri noteUri = ContentUris.withAppendedId(Notes.CONTENT_URI, mNoteId);
+        return new CursorLoader(this, noteUri, noteColumns, null, null,
+                null);
     }
 
     @Override
