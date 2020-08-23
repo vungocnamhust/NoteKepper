@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -307,6 +308,7 @@ public class NoteActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     private CursorLoader createLoaderCourses() {
+
         mCoursesQueryFinished = false;
         return new CursorLoader(this) {
             @Override
@@ -321,6 +323,16 @@ public class NoteActivity extends AppCompatActivity implements LoaderManager.Loa
 
             }
         };
+//        Uri uri = Uri.parse("content://com.example.notekepper.provider");
+//
+//        String[] courseColumns = {
+//                CourseInfoEntry.COLUMN_COURSE_ID,
+//                CourseInfoEntry.COLUMN_COURSE_TITLE,
+//                CourseInfoEntry._ID,};
+//        CursorLoader cursorLoader = new CursorLoader(this, uri, courseColumns, null,
+//                null, CourseInfoEntry.COLUMN_COURSE_TITLE);
+//        return cursorLoader;
+
     }
 
     private CursorLoader createLoaderNotes() {
@@ -348,10 +360,8 @@ public class NoteActivity extends AppCompatActivity implements LoaderManager.Loa
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
         if (loader.getId() == LOADER_NOTES) {
             loadFinishedNotes(data);
-            displayNoteWhenFinishQueryData();
         } else if (loader.getId() == LOADER_COURSES) {
             loadFinishedCourses(data);
-            displayNoteWhenFinishQueryData();
         }
     }
 
@@ -362,6 +372,8 @@ public class NoteActivity extends AppCompatActivity implements LoaderManager.Loa
     private void loadFinishedCourses(Cursor data) {
         mAdapterCourses.changeCursor(data);
         mCoursesQueryFinished = true;
+        displayNoteWhenFinishQueryData();
+
     }
 
     private void loadFinishedNotes(Cursor data) {
@@ -371,6 +383,8 @@ public class NoteActivity extends AppCompatActivity implements LoaderManager.Loa
         mCourseIdPos = mNoteCursor.getColumnIndex(NoteInfoEntry.COLUMN_COURSE_ID);
         mNoteCursor.moveToNext();
         mNotesQueryFinished = true;
+        displayNoteWhenFinishQueryData();
+
     }
 
     @Override

@@ -98,6 +98,5 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
         mNoteRecyclerAdapter.changeCursor(null);
-
     }
 }
