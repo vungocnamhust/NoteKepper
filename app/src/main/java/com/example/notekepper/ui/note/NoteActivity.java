@@ -322,9 +322,9 @@ public class NoteActivity extends AppCompatActivity implements LoaderManager.Loa
     private CursorLoader createLoaderNotes() {
         mNotesQueryFinished = false;
         String[] noteColumns = {
-                NoteInfoEntry.COLUMN_NOTE_TEXT,
-                NoteInfoEntry.COLUMN_NOTE_TITLE,
-                NoteInfoEntry.COLUMN_COURSE_ID};
+                Notes.COLUMN_NOTE_TEXT,
+                Notes.COLUMN_NOTE_TITLE,
+                Notes.COLUMN_COURSE_ID};
 
 
         Uri noteUri = ContentUris.withAppendedId(Notes.CONTENT_URI, mNoteId);

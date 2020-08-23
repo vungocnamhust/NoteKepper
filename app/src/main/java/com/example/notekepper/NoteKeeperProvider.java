@@ -24,6 +24,7 @@ public class NoteKeeperProvider extends ContentProvider {
     private NoteKeeperOpenHelper mDbOpenHelper;
 
     private static UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+    private static final String MIME_VENDOR_TYPE = "vnd." + NoteKeeperProviderContract.AUTHORITY + ".";
 
     public static final int COURSES = 0;
     public static final int NOTES = 1;
