@@ -232,9 +232,6 @@ public class NoteActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     private void createNewNote() {
-//        DataManager dm = DataManager.getInstance();
-//        mNotePosition = dm.createNewNote();
-//        mNote = dm.getNotes().get(mNotePosition);
         ContentValues values = new ContentValues();
         values.put(NoteInfoEntry.COLUMN_COURSE_ID, "");
         values.put(NoteInfoEntry.COLUMN_NOTE_TITLE, "");
