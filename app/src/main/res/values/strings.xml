@@ -17,6 +17,7 @@
     <string name="cancel">Cancel</string>
     <string name="next">Next</string>
     <string name="send_as_email">Send as email</string>
+    <string name="set_reminder">Set reminder</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_settings">SettingsActivity</string>
 

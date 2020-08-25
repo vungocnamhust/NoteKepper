@@ -6,9 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -25,8 +23,6 @@ import androidx.loader.content.AsyncTaskLoader;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 
-import com.example.notekepper.NoteKeeperProvider;
-import com.example.notekepper.NoteKeeperProviderContract;
 import com.example.notekepper.R;
 import com.example.notekepper.data.DataManager;
 import com.example.notekepper.data.local.NoteKeeperOpenHelper;
@@ -265,6 +261,7 @@ public class NoteActivity extends AppCompatActivity implements LoaderManager.Loa
             finish();
         } else if (id == R.id.action_next) {
             moveNext();
+        } else if (id == R.id.action_set_reminder) {
         }
 
         return super.onOptionsItemSelected(item);
