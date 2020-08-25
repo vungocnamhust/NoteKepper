@@ -10,13 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <provider
-            android:name=".NoteKeeperProvider"
+            android:name=".contentprovider.NoteKeeperProvider"
             android:authorities="com.example.notekepper.provider"
             android:enabled="true"
             android:exported="true" />
 
         <activity
-            android:name=".ui.SettingsActivity"
+            android:name=".ui.setting.SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity
             android:name=".MainActivity"

@@ -1,4 +1,4 @@
-package com.example.notekepper;
+package com.example.notekepper.contentprovider;
 
 import android.net.Uri;
 import android.provider.BaseColumns;

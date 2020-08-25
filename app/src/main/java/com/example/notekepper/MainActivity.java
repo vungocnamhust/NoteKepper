@@ -2,22 +2,16 @@ package com.example.notekepper;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
 
-import com.example.notekepper.data.DataManager;
-import com.example.notekepper.data.local.NoteKeeperOpenHelper;
-import com.example.notekepper.ui.SettingsActivity;
+import com.example.notekepper.ui.setting.SettingsActivity;
 import com.example.notekepper.ui.note.NoteActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;

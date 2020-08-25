@@ -29,7 +29,7 @@ import com.example.notekepper.data.local.NoteKeeperOpenHelper;
 import com.example.notekepper.model.CourseInfo;
 import com.example.notekepper.model.NoteInfo;
 
-import static com.example.notekepper.NoteKeeperProviderContract.*;
+import static com.example.notekepper.contentprovider.NoteKeeperProviderContract.*;
 import static com.example.notekepper.data.local.NoteKeeperDatabaseContract.*;
 
 public class NoteActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {

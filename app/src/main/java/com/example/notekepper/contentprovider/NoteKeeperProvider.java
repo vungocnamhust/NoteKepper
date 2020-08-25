@@ -1,4 +1,4 @@
-package com.example.notekepper;
+package com.example.notekepper.contentprovider;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -9,13 +9,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-import com.example.notekepper.NoteKeeperProviderContract.Courses;
-import com.example.notekepper.NoteKeeperProviderContract.CoursesIdColumns;
-import com.example.notekepper.NoteKeeperProviderContract.Notes;
-import com.example.notekepper.data.local.NoteKeeperDatabaseContract;
+import com.example.notekepper.contentprovider.NoteKeeperProviderContract.Courses;
+import com.example.notekepper.contentprovider.NoteKeeperProviderContract.CoursesIdColumns;
+import com.example.notekepper.contentprovider.NoteKeeperProviderContract.Notes;
 import com.example.notekepper.data.local.NoteKeeperDatabaseContract.CourseInfoEntry;
 import com.example.notekepper.data.local.NoteKeeperOpenHelper;
-import com.example.notekepper.model.NoteInfo;
 
 import static com.example.notekepper.data.local.NoteKeeperDatabaseContract.*;
 

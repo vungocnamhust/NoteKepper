@@ -1,7 +1,6 @@
 package com.example.notekepper.ui.notes;
 
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,19 +16,14 @@ import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.notekepper.NoteKeeperProviderContract;
 import com.example.notekepper.data.DataManager;
-import com.example.notekepper.data.local.NoteKeeperDatabaseContract;
-import com.example.notekepper.data.local.NoteKeeperDatabaseContract.CourseInfoEntry;
-import com.example.notekepper.data.local.NoteKeeperDatabaseContract.NoteInfoEntry;
 import com.example.notekepper.data.local.NoteKeeperOpenHelper;
 import com.example.notekepper.model.NoteInfo;
 import com.example.notekepper.R;
-import com.example.notekepper.ui.note.NoteActivity;
 
 import java.util.List;
 
-import static com.example.notekepper.NoteKeeperProviderContract.*;
+import static com.example.notekepper.contentprovider.NoteKeeperProviderContract.*;
 
 public class NotesFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 

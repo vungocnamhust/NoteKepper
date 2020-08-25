@@ -1,4 +1,4 @@
-package com.example.notekepper.ui;
+package com.example.notekepper.ui.setting;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
